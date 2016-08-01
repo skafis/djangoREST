@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from . import UserSerializer, GroupSerializer
 # Create your views here.
 
-class UserViewets (viewsets.ModelViewSet):
+class UserViewSets (viewsets.ModelViewSet):
 	# Api endpoint allowing users to be viewd or edited
 	queryset = User.objects.all().order_by('-date_joined')
 	serializer_class = UserSerializer
