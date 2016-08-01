@@ -19,7 +19,7 @@ from rest_framework import routers
 from projects import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSets)
+router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSets)
 
 #wiring the API using automatic URL routing
