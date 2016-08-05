@@ -20,5 +20,8 @@ run the server - python manage.py runserver
 
 install httpie package - sudo apt-get install httpie
 
-run http -a username:password http://127.0.0.1:8000/users/
-replace username and password with the one you created on python manage.py createsuperuser
+run this command ~ http -a username:password http://127.0.0.1:8000/users/
+
+finally replace username and password with the one you created on python manage.py createsuperuser
+
+or you can view through the web by going to http://127.0.0.1:8000/users/ and do not forget to login on the top right corner.
