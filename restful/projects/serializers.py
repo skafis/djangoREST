@@ -16,18 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 		fields = ('url','name')
 
 
-class ProjectSerializer(serializers.Serializer):
-	primary_key = serializers.IntegerField(read_only=True)
-	title = serializers.CharField(required=False, allow_blank=True, max_length=100)
-	description = serializers.CharField()
-
-	def create(self, validated_data):
-		#create and return project instance given validated date
-		return Projects.objects.create(**validated_data)
-
-	def update(self, instance, validated_data):
-		# update and return existing project instance given validated data
-		instance.title = validated_data.get('title', instance.title)
-		instance.description = validated_data.get('description',instance.description)
-		instance.save()
-		return instance
+class ProjectSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Projects
+		fields = ('id','title','description')
