@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from .serializers import UserSerializer, GroupSerializer, ProjectSerializer
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 from .models import Projects
 
 # Create your views here.
@@ -21,24 +22,26 @@ class GroupViewSets(viewsets.ModelViewSet):
 	serializer_class = GroupSerializer
 
 
-class JSONResponse(HttpResponse):
-	# an httpresponse that renders its content into Json
-	def __init__(self, data, **kwargs):
-		content = JSONRenderer().render(data)
-		kwargs['content_type'] ='application/json'
-		super(JSONResponse, self).__init__(content, **kwargs)
+# class JSONResponse(HttpResponse):
+# 	# an httpresponse that renders its content into Json
+# 	def __init__(self, data, **kwargs):
+# 		content = JSONRenderer().render(data)
+# 		kwargs['content_type'] ='application/json'
+# 		super(JSONResponse, self).__init__(content, **kwargs)
 
-@csrf_exempt
+# @csrf_exempt
+@api_view(['GET','POST'])
 def project_list(request):
 	# list all projects or create new project
 	if request.method == 'GET':
 		projects = Projects.objects.all()
 		serializers = ProjectSerializer(projects, many=True)
-		return JSONResponse(serializers.data)
+		return Response(serializers.data)
 
 	elif request.method == 'POST':
-		data = JSONParser().parse(request)
-		serializers = ProjectSerializer(data=data)
+		# data = JSONParser().parse(request)
+		# serializers = ProjectSerializer(data=data)
+		serializers = ProjectSerializer(data=request)
 		if serializer.is_valid():
 			serializer.save()
 			return JSONResponse(serializer.data, status=201)
