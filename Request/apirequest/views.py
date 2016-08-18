@@ -7,7 +7,7 @@ from .serializers import ProjectSerializer
 
 # Create your views here.
 @api_view (['GET', 'POST'])
-def project_list(request):
+def project_list(request, format=None):
 	# listing all snippets or creating new
 	if request.method == 'GET':
 		project = Projects.objects.all()
@@ -19,10 +19,10 @@ def project_list(request):
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status=status.HTTP_400_	BAD_REQUEST)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','PUT','DELETE'])
-def project_detail(request, pk):
+def project_detail(request, pk, format=None):
 	# retreive update or delete project instance
 	try:
 		project =Projects.objects.get(pk=pk)
